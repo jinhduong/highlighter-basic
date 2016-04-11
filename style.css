@@ -1,0 +1,11 @@
+.chrome-extension-highlight {
+    font-style: normal;
+    padding-left: 3px;
+    padding-right: 3px;
+    box-shadow: rgba(0, 0, 0, 0.298039) 1px 1px 3px;
+    text-decoration: none;
+    border-radius: 3px;
+    color: black;
+    background: yellow;
+    cursor: pointer;
+}

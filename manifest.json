@@ -1,0 +1,29 @@
+{
+    "manifest_version": 2,
+
+    "name": "Highlighter Basic",
+    "description": "Highlighter Basic",
+    "version": "0.1",
+    "icons": {
+        "16": "icon/icon16.png",
+        "48": "icon/icon48.png",
+        "128": "icon/icon128.png"
+    },
+    "browser_action": {
+        "default_issscon": "icon.png",
+        "default_popup": "popup.html"
+    },
+    "permissions": [
+        "activeTab",
+        "https://ajax.googleapis.com/",
+        "storage"
+    ],
+    "web_accessible_resources": [
+        "data.json"
+    ],
+    "content_scripts": [{
+        "js": ["extLibs.js", "jquery.min.js", "main.js"],
+        "matches": ["http://*/*", "https://*/*"],
+        "css": ["style.css"]
+    }]
+}
