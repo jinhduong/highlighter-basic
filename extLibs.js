@@ -1,3 +1,4 @@
+//Get XPath string of specify DOM element
 function getPathTo(element) {
     if (element.id !== '' && element.id !== undefined)
         return "id('" + element.id + "')";
@@ -15,6 +16,7 @@ function getPathTo(element) {
     }
 }
 
+//Get DOM element from XPath string
 function $x(xPathString) {
     var elem = document.evaluate(
         xPathString,
