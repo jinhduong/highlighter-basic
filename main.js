@@ -2,9 +2,12 @@ var
     selection = window.getSelection,
     tree = JSON.parse(localStorage.getItem('hl')) || {},
     place = processUrl(location.href),
-    config = {
+    store$ = {
         class: {
             YELLOW: 'chrome-extension-highlight'
+        },
+        d: {
+            preNodeId: 0
         }
     };
 
@@ -41,14 +44,16 @@ function saveSelectedText(selectObj) {
 window.addEventListener("keydown", function (e) {
     if (e.keyCode == 66 && e.ctrlKey)
         saveSelectedText(selection());
+    if (e.keyCode == 78 && e.shiftKey)
+        nextHighlight();
 });
 
 $(document).on('click', '.chrome-extension-highlight', function () {
-    $(this).removeClass(config.class.YELLOW);
+    $(this).removeClass(store$.class.YELLOW);
 })
 
 function processStr(fullString, text, from, to) {
-    var spanHtml = $('<span>').text(text).addClass(config.class.YELLOW)[0].outerHTML;
+    var spanHtml = $('<span>').text(text).addClass(store$.class.YELLOW)[0].outerHTML;
     var first = fullString.substr(0, from),
         second = fullString.substr(from);
     second = second.replace(text, spanHtml);
@@ -67,4 +72,13 @@ function processUrl(url) {
     if (index > 0)
         return url.substr(0, index);
     return url;
+}
+
+function nextHighlight() {
+    var $node = $('.chrome-extension-highlight:eq(' + store$.d.preNodeId + ')');
+    if ($node.length > 0) {
+        $node.focusin();
+        store$.d.preNodeId++;
+        scrollToElement.call(null, $node);
+    }
 }

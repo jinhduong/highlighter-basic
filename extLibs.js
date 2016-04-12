@@ -27,3 +27,9 @@ function $x(xPathString) {
     );
     return elem.snapshotItem(0) || null;
 }
+
+function scrollToElement($elem) {
+    $('html, body').animate({
+        scrollTop: $elem.offset().top - 100
+    }, 2000);
+}

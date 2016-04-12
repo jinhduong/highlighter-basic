@@ -22,7 +22,7 @@
         "data.json"
     ],
     "content_scripts": [{
-        "js": ["extLibs.js", "jquery.min.js", "main.js"],
+        "js": ["jquery.min.js", "extLibs.js", "main.js"],
         "matches": ["http://*/*", "https://*/*"],
         "css": ["style.css"]
     }]
