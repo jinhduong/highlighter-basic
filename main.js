@@ -2,6 +2,7 @@ var
     selection = window.getSelection,
     tree = JSON.parse(localStorage.getItem('hl')) || {},
     place = processUrl(location.href),
+    thisPage,
     store$ = {
         class: {
             YELLOW: 'chrome-extension-highlight'
@@ -12,7 +13,7 @@ var
     };
 
 if (tree != null) {
-    var thisPage = tree[place];
+    thisPage = tree[place];
     thisPage && reloadPage(thisPage);
 }
 
@@ -26,7 +27,8 @@ function saveSelectedText(selectObj) {
         place: place
     };
 
-    var newHtml = processStr(info.parent.html(), info.text, info.sender.anchorOffset);
+    var guid = shortGuid();
+    var newHtml = processStr(info.parent.html(), info.text, info.sender.anchorOffset, guid);
     info.parent.html(newHtml);
 
     if (tree == null || tree[info.place] == undefined)
@@ -35,10 +37,11 @@ function saveSelectedText(selectObj) {
     tree[info.place].push({
         xpath: getPathTo(info.parent[0]),
         html: newHtml,
-        text: info.text
+        text: info.text,
+        guid: guid
     });
-
-    localStorage.setItem('hl', JSON.stringify(tree));
+    
+    updateStore();
 }
 
 window.addEventListener("keydown", function (e) {
@@ -50,10 +53,11 @@ window.addEventListener("keydown", function (e) {
 
 $(document).on('click', '.chrome-extension-highlight', function () {
     $(this).removeClass(store$.class.YELLOW);
+    removeElement.call(null, $(this));
 })
 
-function processStr(fullString, text, from, to) {
-    var spanHtml = $('<span>').text(text).addClass(store$.class.YELLOW)[0].outerHTML;
+function processStr(fullString, text, from, guid) {
+    var spanHtml = $('<span>').text(text).attr('guid', guid).addClass(store$.class.YELLOW)[0].outerHTML;
     var first = fullString.substr(0, from),
         second = fullString.substr(from);
     second = second.replace(text, spanHtml);
@@ -80,5 +84,22 @@ function nextHighlight() {
         $node.focusin();
         store$.d.preNodeId++;
         scrollToElement.call(null, $node);
+    } else {
+        store$.d.preNodeId = 0;
+        nextHighlight();
     }
+}
+
+function removeElement(element) {
+    var guid = $(element).attr('guid');
+    thisPage.forEach(function (elem, index) {
+        if (elem.guid == guid)
+            thisPage.splice(index, 1);
+    });
+    updateStore();
+    
+}
+
+function updateStore(){
+    localStorage.setItem('hl', JSON.stringify(tree));
 }

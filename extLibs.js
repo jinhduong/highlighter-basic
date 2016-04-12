@@ -33,3 +33,11 @@ function scrollToElement($elem) {
         scrollTop: $elem.offset().top - 100
     }, 2000);
 }
+
+function shortGuid() {
+    function _4str() {
+        var num = Math.floor((1 + Math.random()) * 0x10000);
+        return num.toString(16).substring(1);
+    }
+    return _4str() + _4str();
+}
