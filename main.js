@@ -136,6 +136,7 @@ function kDescription(settings) {
     };
 
     $('.ce-popup').css('top', config.pos).show();
+    $('.ce-popup').find('button').off('click');
     $('.ce-popup').find('button').click(function (e) {
         var desc = $('.ce-popup').find('input').val();
         config.clickAdd(desc);
