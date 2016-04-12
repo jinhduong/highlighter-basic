@@ -19,7 +19,7 @@
         "storage"
     ],
     "web_accessible_resources": [
-        "data.json"
+        "modal.html"
     ],
     "content_scripts": [{
         "js": ["jquery.min.js", "extLibs.js", "main.js"],
