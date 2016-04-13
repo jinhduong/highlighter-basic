@@ -10,6 +10,11 @@
     cursor: pointer;
 }
 
+.chrome-extension-highlight[desc=""] {
+    font-style: italic;
+    background: #eded84 !important;
+}
+
 .ce-popup {
     width: 270px;
     height: 120px;
