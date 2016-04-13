@@ -78,6 +78,10 @@ window.addEventListener("keydown", function (e) {
         nextHighlight();
     else if (e.keyCode == 68 && e.shiftKey)
         console.log(thisPage);
+    else if (e.keyCode == 67 && e.shiftKey) {
+        localStorage.setItem('hl', null);
+        location.reload();
+    }
 });
 
 $(document).on('click', '.chrome-extension-highlight', function () {
@@ -155,8 +159,9 @@ function injection() {
     $('.chrome-extension-highlight').mouseover(function (e) {
         var pos = $(this).offset().top + 20;
         var posLeft = $(this).offset().left + 20;
-        $('.ce-popup-mini').css('top', pos).css('left', posLeft).find('span').text($(this).attr('desc'));
-        $('.ce-popup-mini').show();
+        var desc = $(this).attr('desc');
+        $('.ce-popup-mini').css('top', pos).css('left', posLeft).find('span').text();
+        if (desc) $('.ce-popup-mini').text(desc).show();
     });
 
     $('.chrome-extension-highlight').mouseleave(function (e) {
