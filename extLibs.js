@@ -3,7 +3,7 @@ function getPathTo(element) {
     if (element.id !== '' && element.id !== undefined)
         return "id('" + element.id + "')";
     if (element === document.body)
-        return element.tagName;
+        return '/HTML/' + element.tagName;
 
     var ix = 0;
     var siblings = element.parentNode.childNodes;
@@ -17,7 +17,7 @@ function getPathTo(element) {
 }
 
 //Get DOM element from XPath string
-function $x(xPathString) {
+function $xp(xPathString) {
     var elem = document.evaluate(
         xPathString,
         document,
