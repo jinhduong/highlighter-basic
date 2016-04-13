@@ -84,6 +84,7 @@ window.addEventListener("keydown", function (e) {
     else if (e.keyCode == 67 && e.shiftKey) {
         localStorage.setItem('hl', null);
         location.reload();
+<<<<<<< HEAD
     } else if (e.keyCode == 70 && e.shiftKey) {
         downloadFile();
         chrome.extension.sendMessage({
@@ -91,6 +92,8 @@ window.addEventListener("keydown", function (e) {
         }, function (res) {
             console.log(res);
         });
+=======
+>>>>>>> origin/master
     }
 });
 
