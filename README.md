@@ -1,4 +1,4 @@
-# highlighter-basic
+# Highlighter-Basic
 >- `Ctr + B`: make highlight for selected text. 
 >- `Shift + N`: move to next highlight position. 
 >- `Shift + F`: create the highlight file(.json). 
