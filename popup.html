@@ -21,6 +21,29 @@
         </button>
     </div>
 
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title"> 
+                <span class="glyphicon glyphicon glyphicon-cog" aria-hidden="true"></span>
+                Commands & using
+            </h3>
+        </div>
+        <div class="panel-body">
+            <code>Ctr + B</code>: <span>make highlight for selected text.</span>
+            <br>
+            <code>Shift + N</code>: <span>move to next highlight position.</span>
+            <br>
+            <code>Shift + F</code>: <span>create the highlight file(.json).</span>
+            <br>
+            <code>Shift + C</code>: <span>clear the highlight data for this page.</span>
+            <br>
+            <br>
+            <code>NOTICE</code> : <span>If you created the highlight with null description then it will become to italic highlight.</span>
+        </div>
+    </div>
+
+    GitHub: <a id="github" href="javascript:void(0);">github.com/jinhduong/highlighter-basic</a>
+
 </body>
 <script src=libs/jquery.min.js></script>
 <script src="popup.js"></script>
@@ -30,7 +53,7 @@
 
 <style>
     body {
-        width: 300px;
+        width: 400px;
         padding: 10px;
         font-family: Verdana, Arial, Helvetica, sans-serif !important
     }
@@ -42,6 +65,18 @@
     .title-text {
         font-size: 13px;
         font-weight: 600;
+    }
+    
+    .btn {
+        font-size: 12px;
+    }
+    
+    .panel-title {
+        font-size: 14px;
+    }
+    
+    .panel-body span {
+        font-size: 11px;
     }
 
 </style>

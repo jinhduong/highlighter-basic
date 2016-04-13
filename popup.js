@@ -1,7 +1,6 @@
 chrome.extension.onMessage.addListener(
     function (req, sender, resCallback) {
         console.log(sender, req);
-        //chrome.pageAction.show(sender.tab.is);
     }
 )
 
@@ -14,6 +13,12 @@ $('#btnUpload').click(function (e) {
     });
 });
 
+$('#github').click(function(){
+    sendReq({
+        type: 'link',
+        href: 'https://github.com/jinhduong/highlighter-basic'
+    })
+});
 
 function sendReq(data) {
     chrome.tabs.query({

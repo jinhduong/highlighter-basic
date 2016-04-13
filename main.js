@@ -14,7 +14,9 @@ var
             popup: '<div class="ce-popup"> \
                 <div class="ce-content"> \
                     <h3> Add Description </h3> \
-                    <input type="text" /> <button>Add</button> \
+                    <input type="text" /><br> \
+                    <button class="ce-add">Add</button> \
+                    <button class="ce-cancel">Cancel</button> \
                 </div> \
             </div>',
             popup_mini: '<div class="ce-popup-mini"> \
@@ -24,7 +26,8 @@ var
             </div>'
         },
         const: {
-            ADD_JSON: "addJson"
+            ADD_JSON: "addJson",
+            OPEN_LINK: "link"
         }
     };
 
@@ -174,12 +177,15 @@ function kDescription(settings) {
 
     $('.ce-popup').css('top', config.posTop + 20).css('left', config.posLeft + 20).show();
     $('.ce-popup').find('button').off('click');
-    $('.ce-popup').find('button').click(function (e) {
+    $('.ce-popup').find('.ce-add').click(function (e) {
         var desc = $('.ce-popup').find('input').val();
         config.clickAdd(desc);
         $('.ce-popup').hide();
         $('.ce-popup').find('input').val('');
     });
+    $('.ce-popup').find('.ce-cancel').click(function(e){
+        $('.ce-popup').hide();
+    })
 }
 
 function injection() {
