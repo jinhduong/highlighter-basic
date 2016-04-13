@@ -50,6 +50,10 @@ function saveSelectedText(selectObj, decs, info) {
 
 $('body').append(store$.html.popup);
 $('body').append(store$.html.popup_mini);
+$('.ce-popup').keydown(function (e) {
+    if (e.keyCode == 13)
+        $(this).find('button').trigger('click');
+})
 
 window.addEventListener("keydown", function (e) {
     if (e.keyCode == 66 && e.ctrlKey) {
@@ -62,16 +66,18 @@ window.addEventListener("keydown", function (e) {
             sender: selectObj,
             place: place
         };
-        var pos = $(selectObj.anchorNode.parentElement).offset().top;
+        var offset = $(selectObj.anchorNode.parentElement).offset();
         kDescription({
-            pos: pos,
+            posTop: offset.top,
+            posLeft: offset.left,
             clickAdd: function (decs) {
                 saveSelectedText(selectObj, decs, info);
             }
         })
-    }
-    if (e.keyCode == 78 && e.shiftKey)
+    } else if (e.keyCode == 78 && e.shiftKey)
         nextHighlight();
+    else if (e.keyCode == 68 && e.shiftKey)
+        console.log(thisPage);
 });
 
 $(document).on('click', '.chrome-extension-highlight', function () {
@@ -91,7 +97,7 @@ function processStr(fullString, text, from, guid, desc) {
 
 function reloadPage(data) {
     data.forEach(function (item) {
-        var $elem = $($x(item.xpath));
+        var $elem = $($xp(item.xpath));
         $elem.html(item.html);
     });
 }
@@ -131,11 +137,12 @@ function updateStore() {
 
 function kDescription(settings) {
     var config = {
-        pos: settings.pos,
+        posTop: settings.posTop,
+        posLeft: settings.posLeft,
         clickAdd: settings.clickAdd
     };
 
-    $('.ce-popup').css('top', config.pos).show();
+    $('.ce-popup').css('top', config.posTop + 20).css('left', config.posLeft + 20).show();
     $('.ce-popup').find('button').off('click');
     $('.ce-popup').find('button').click(function (e) {
         var desc = $('.ce-popup').find('input').val();
