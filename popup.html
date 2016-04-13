@@ -3,11 +3,45 @@
 
 <head>
     <title>MME Extension</title>
+    <link href="css/bootstrap.css" rel="stylesheet" />
 </head>
 
 <body>
-    <h3>Highlighter basic</h3>
-    <p>Version: 0.1</p>
+    <div class="title-app">
+        <span class="title-text">Highlighter-basic</span>
+        <span class="label label-warning">0.1 dev</span>
+    </div>
+    <form class="form-horizontal"></form>
+    <div class="form-group">
+        <textarea rows="4" class="form-control" id="jsontext"></textarea>
+    </div>
+    <div class="form-group">
+        <button id="btnUpload" type="submit" class="btn btn-primary">
+            <span class="glyphicon glyphicon glyphicon-import" aria-hidden="true"></span> Import
+        </button>
+    </div>
+
 </body>
+<script src=libs/jquery.min.js></script>
+<script src="popup.js"></script>
+<script src="libs/bootstrap.js"></script>
 
 </html>
+
+<style>
+    body {
+        width: 300px;
+        padding: 10px;
+        font-family: Verdana, Arial, Helvetica, sans-serif !important
+    }
+    
+    .title-app {
+        margin-bottom: 5px;
+    }
+    
+    .title-text {
+        font-size: 13px;
+        font-weight: 600;
+    }
+
+</style>

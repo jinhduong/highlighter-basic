@@ -10,6 +10,11 @@
     cursor: pointer;
 }
 
+.chrome-extension-highlight[desc=""] {
+    font-style: italic;
+    background: #eded84 !important;
+}
+
 .ce-popup {
     width: 270px;
     height: 120px;
@@ -34,6 +39,8 @@
     box-sizing: content-box;
     border-width: 1px;
     -webkit-appearance: none;
+    font-size: 13px;
+    font-family: Verdana, Arial, Helvetica, sans-serif !important
 }
 
 .ce-popup h3 {
@@ -43,7 +50,7 @@
 .ce-popup-mini {
     width: 150px;
     height: 70px;
-    padding: 10px;
+    padding: 5px 10px 5px 10px;
     min-width: 90px;
     min-height: 50px;
     display: none;
@@ -58,10 +65,12 @@
     border-color: rgba(0, 0, 0, .3);
     -webkit-box-shadow: 1px 1px 7px 1px rgba(128, 128, 128, .3);
     box-shadow: 1px 1px 7px 1px rgba(128, 128, 128, .3);
-    background-color: #fff;
+    background-color: #f4f4f4;
     outline: 0;
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
     box-sizing: content-box;
     border-width: 1px;
     -webkit-appearance: none;
+    font-size: 12px;
+    font-family: Verdana, Arial, Helvetica, sans-serif !important
 }

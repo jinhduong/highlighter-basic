@@ -3,7 +3,7 @@ function getPathTo(element) {
     if (element.id !== '' && element.id !== undefined)
         return "id('" + element.id + "')";
     if (element === document.body)
-        return element.tagName;
+        return '/HTML/' + element.tagName;
 
     var ix = 0;
     var siblings = element.parentNode.childNodes;
@@ -17,7 +17,7 @@ function getPathTo(element) {
 }
 
 //Get DOM element from XPath string
-function $x(xPathString) {
+function $xp(xPathString) {
     var elem = document.evaluate(
         xPathString,
         document,
@@ -40,4 +40,14 @@ function shortGuid() {
         return num.toString(16).substring(1);
     }
     return _4str() + _4str();
+}
+
+function downloadFile() {
+    var elem = document.createElement("a");
+    var file = new Blob([localStorage.hl], {
+        type: 'html/text'
+    });
+    elem.href = URL.createObjectURL(file);
+    elem.download = location.href + '.json';
+    elem.click();
 }

@@ -22,8 +22,8 @@
         "modal.html"
     ],
     "content_scripts": [{
-        "js": ["jquery.min.js", "extLibs.js", "main.js"],
+        "js": ["libs/jquery.min.js", "libs/extLibs.js", "main.js"],
         "matches": ["http://*/*", "https://*/*"],
-        "css": ["style.css"]
+        "css": ["css/style.css"]
     }]
 }

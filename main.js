@@ -22,6 +22,9 @@ var
                     <span></span> \
                 </div> \
             </div>'
+        },
+        const: {
+            ADD_JSON: "addJson"
         }
     };
 
@@ -50,6 +53,10 @@ function saveSelectedText(selectObj, decs, info) {
 
 $('body').append(store$.html.popup);
 $('body').append(store$.html.popup_mini);
+$('.ce-popup').keydown(function (e) {
+    if (e.keyCode == 13)
+        $(this).find('button').trigger('click');
+})
 
 window.addEventListener("keydown", function (e) {
     if (e.keyCode == 66 && e.ctrlKey) {
@@ -62,22 +69,53 @@ window.addEventListener("keydown", function (e) {
             sender: selectObj,
             place: place
         };
-        var pos = $(selectObj.anchorNode.parentElement).offset().top;
+        var offset = $(selectObj.anchorNode.parentElement).offset();
         kDescription({
-            pos: pos,
+            posTop: offset.top,
+            posLeft: offset.left,
             clickAdd: function (decs) {
                 saveSelectedText(selectObj, decs, info);
             }
         })
-    }
-    if (e.keyCode == 78 && e.shiftKey)
+    } else if (e.keyCode == 78 && e.shiftKey)
         nextHighlight();
+    else if (e.keyCode == 68 && e.shiftKey)
+        console.log(thisPage);
+    else if (e.keyCode == 67 && e.shiftKey) {
+        localStorage.setItem('hl', null);
+        location.reload();
+    } else if (e.keyCode == 70 && e.shiftKey) {
+        downloadFile();
+        chrome.extension.sendMessage({
+            mess: 'hello'
+        }, function (res) {
+            console.log(res);
+        });
+    }
 });
 
 $(document).on('click', '.chrome-extension-highlight', function () {
     $(this).removeClass(store$.class.YELLOW);
     removeElement.call(null, $(this));
-})
+});
+
+//Receving data from extension
+chrome.extension.onMessage.addListener(
+    function (req, sender, resCallback) {
+        if (req.type == store$.const.ADD_JSON) {
+            var dataList = JSON.parse(req.jsontext);
+            if (dataList[place] != null && dataList[place] != undefined) {
+                thisPage = (thisPage && thisPage.concat(dataList[place])) || dataList[place];
+                tree[place] = thisPage;
+                updateStore();
+                resCallback({
+                    mess: 'Update data sucessfully'
+                });
+                location.reload();
+            }
+        }
+    }
+)
 
 injection();
 
@@ -91,16 +129,14 @@ function processStr(fullString, text, from, guid, desc) {
 
 function reloadPage(data) {
     data.forEach(function (item) {
-        var $elem = $($x(item.xpath));
+        var $elem = $($xp(item.xpath));
         $elem.html(item.html);
     });
 }
 
 function processUrl(url) {
     var index = url.indexOf('#.');
-    if (index > 0)
-        return url.substr(0, index);
-    return url;
+    return index > 0 ? url.substr(0, index) : url;
 }
 
 function nextHighlight() {
@@ -131,16 +167,18 @@ function updateStore() {
 
 function kDescription(settings) {
     var config = {
-        pos: settings.pos,
+        posTop: settings.posTop,
+        posLeft: settings.posLeft,
         clickAdd: settings.clickAdd
     };
 
-    $('.ce-popup').css('top', config.pos).show();
+    $('.ce-popup').css('top', config.posTop + 20).css('left', config.posLeft + 20).show();
     $('.ce-popup').find('button').off('click');
     $('.ce-popup').find('button').click(function (e) {
         var desc = $('.ce-popup').find('input').val();
         config.clickAdd(desc);
         $('.ce-popup').hide();
+        $('.ce-popup').find('input').val('');
     });
 }
 
@@ -148,8 +186,9 @@ function injection() {
     $('.chrome-extension-highlight').mouseover(function (e) {
         var pos = $(this).offset().top + 20;
         var posLeft = $(this).offset().left + 20;
-        $('.ce-popup-mini').css('top', pos).css('left', posLeft).find('span').text($(this).attr('desc'));
-        $('.ce-popup-mini').show();
+        var desc = $(this).attr('desc');
+        $('.ce-popup-mini').css('top', pos).css('left', posLeft).find('span').text();
+        if (desc) $('.ce-popup-mini').text(desc).show();
     });
 
     $('.chrome-extension-highlight').mouseleave(function (e) {
