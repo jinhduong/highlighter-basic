@@ -82,18 +82,11 @@ window.addEventListener("keydown", function (e) {
         })
     } else if (e.keyCode == 78 && e.shiftKey)
         nextHighlight();
-    else if (e.keyCode == 68 && e.shiftKey)
-        console.log(thisPage);
-    else if (e.keyCode == 67 && e.shiftKey) {
+    else if (e.keyCode == 76 && e.shiftKey && e.ctrlKey) {
         localStorage.setItem('hl', null);
         location.reload();
-    } else if (e.keyCode == 70 && e.shiftKey) {
+    } else if (e.keyCode == 70 && e.shiftKey && e.ctrlKey) {
         downloadFile();
-        chrome.extension.sendMessage({
-            mess: 'hello'
-        }, function (res) {
-            console.log(res);
-        });
     }
 });
 

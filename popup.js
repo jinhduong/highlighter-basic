@@ -1,8 +1,8 @@
-chrome.extension.onMessage.addListener(
+/*chrome.extension.onMessage.addListener(
     function (req, sender, resCallback) {
         console.log(sender, req);
     }
-)
+)*/
 
 
 //send message request to content script
