@@ -1,6 +1,6 @@
 # Highlighter-Basic
 
-![Highlighter-Basic](https://s3-ap-southeast-1.amazonaws.com/kipalog.com/H3.png_wikkyycg1a)
+![Highlighter-Basic](https://github.com/jinhduong/highlighter-basic/blob/master/H3.png)
 
 >- `Ctr + B`: make highlight for selected text. 
 >- `Shift + N`: move to next red point position. 
