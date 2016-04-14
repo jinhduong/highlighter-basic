@@ -100,8 +100,8 @@ window.addEventListener("keydown", function (e) {
 document.addEventListener('mouseup', function (mousePos) {
     if (mousePos.button == 2) {
         var p = {
-            clientX: mousePos.offsetX,
-            clientY: mousePos.offsetY
+            left: mousePos.pageX,
+            top: mousePos.pageY
         };
         console.log(p);
         var msg = {
@@ -138,11 +138,11 @@ chrome.extension.onMessage.addListener(
         } else if (req.type == store$.const.CONTEXT) {
             var guid = shortGuid();
             kDescription({
-                posLeft: req.point.clientX,
-                posTop: req.point.clientY,
+                posLeft: req.point.left,
+                posTop: req.point.top,
                 clickAdd: function (desc) {
                     var $elem = $(store$.html.popup_stick).attr('guid', guid);
-                    $elem.css('top', req.point.clientY - 2).css('left', req.point.clientX);
+                    $elem.css('top', req.point.top).css('left', req.point.left);
                     $elem.find('span').text(desc);
                     $elem.show();
                     $('body').append($elem[0].outerHTML);

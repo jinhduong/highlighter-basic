@@ -23,7 +23,7 @@ var getClickHandler = function (info, tab) {
 }
 
 chrome.contextMenus.create({
-    "title": "Create sticker point",
+    "title": "Make red point",
     "type": "normal",
     "contexts": ["all"],
     "onclick": getClickHandler
