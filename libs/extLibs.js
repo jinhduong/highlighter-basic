@@ -44,7 +44,9 @@ function shortGuid() {
 
 function downloadFile() {
     var elem = document.createElement("a");
-    var file = new Blob([localStorage.hl], {
+    var dataSave = {};
+    dataSave[place] = tree[place];
+    var file = new Blob([JSON.stringify(dataSave)], {
         type: 'html/text'
     });
     elem.href = URL.createObjectURL(file);

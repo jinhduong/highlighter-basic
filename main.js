@@ -23,11 +23,17 @@ var
                 <div class="ce-content"> \
                     <span></span> \
                 </div> \
-            </div>'
+            </div>',
+            popup_stick: '<div class="ce-popup-stick"> \
+                    <div> \
+                    ** <span></span> \
+                    </div> \
+                </div>'
         },
         const: {
             ADD_JSON: "addJson",
-            OPEN_LINK: "link"
+            OPEN_LINK: "link",
+            CONTEXT: 'context'
         }
     };
 
@@ -74,8 +80,8 @@ window.addEventListener("keydown", function (e) {
         };
         var offset = $(selectObj.anchorNode.parentElement).offset();
         kDescription({
-            posTop: offset.top,
-            posLeft: offset.left,
+            posTop: offset.top + 20,
+            posLeft: offset.left + 20,
             clickAdd: function (decs) {
                 saveSelectedText(selectObj, decs, info);
             }
@@ -90,8 +96,28 @@ window.addEventListener("keydown", function (e) {
     }
 });
 
-$(document).on('click', '.chrome-extension-highlight', function () {
-    $(this).removeClass(store$.class.YELLOW);
+//When user right-click in page
+document.addEventListener('mouseup', function (mousePos) {
+    if (mousePos.button == 2) {
+        var p = {
+            clientX: mousePos.offsetX,
+            clientY: mousePos.offsetY
+        };
+        console.log(p);
+        var msg = {
+            text: 'example',
+            point: p,
+            from: 'mouseup'
+        };
+        chrome.runtime.sendMessage(msg, function (response) {});
+    }
+})
+
+$(document).on('click', '.chrome-extension-highlight,.ce-popup-stick', function () {
+    if ($(this).hasClass('ce-popup-stick'))
+        $(this).remove();
+    else
+        $(this).removeClass(store$.class.YELLOW);
     removeElement.call(null, $(this));
 });
 
@@ -109,6 +135,28 @@ chrome.extension.onMessage.addListener(
                 });
                 location.reload();
             }
+        } else if (req.type == store$.const.CONTEXT) {
+            var guid = shortGuid();
+            kDescription({
+                posLeft: req.point.clientX,
+                posTop: req.point.clientY,
+                clickAdd: function (desc) {
+                    var $elem = $(store$.html.popup_stick).attr('guid', guid);
+                    $elem.css('top', req.point.clientY - 2).css('left', req.point.clientX);
+                    $elem.find('span').text(desc);
+                    $elem.show();
+                    $('body').append($elem[0].outerHTML);
+
+                    tree[place].push({
+                        html: $elem[0].outerHTML,
+                        guid: guid
+                    });
+                    updateStore();
+                    injection();
+                }
+            });
+
+            console.log(req.point, guid);
         }
     }
 )
@@ -125,8 +173,12 @@ function processStr(fullString, text, from, guid, desc) {
 
 function reloadPage(data) {
     data.forEach(function (item) {
-        var $elem = $($xp(item.xpath));
-        $elem.html(item.html);
+        if (item.xpath) {
+            var $elem = $($xp(item.xpath));
+            $elem.html(item.html);
+        } else {
+            $('body').append(item.html);
+        }
     });
 }
 
@@ -136,7 +188,7 @@ function processUrl(url) {
 }
 
 function nextHighlight() {
-    var $node = $('.chrome-extension-highlight:eq(' + store$.d.preNodeId + ')');
+    var $node = $('.ce-popup-stick:eq(' + store$.d.preNodeId + ')');
     if ($node.length > 0) {
         $node.focusin();
         store$.d.preNodeId++;
@@ -168,15 +220,16 @@ function kDescription(settings) {
         clickAdd: settings.clickAdd
     };
 
-    $('.ce-popup').css('top', config.posTop + 20).css('left', config.posLeft + 20).show();
+    $('.ce-popup').css('top', config.posTop).css('left', config.posLeft).show();
     $('.ce-popup').find('button').off('click');
+    $('.ce-popup').find('input').focus().click();
     $('.ce-popup').find('.ce-add').click(function (e) {
         var desc = $('.ce-popup').find('input').val();
         config.clickAdd(desc);
         $('.ce-popup').hide();
         $('.ce-popup').find('input').val('');
     });
-    $('.ce-popup').find('.ce-cancel').click(function(e){
+    $('.ce-popup').find('.ce-cancel').click(function (e) {
         $('.ce-popup').hide();
     })
 }

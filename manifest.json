@@ -13,11 +13,16 @@
         "default_issscon": "icon.png",
         "default_popup": "popup.html"
     },
+    "background": {
+        "scripts": ["background.js"]
+    },
     "permissions": [
         "activeTab",
         "https://ajax.googleapis.com/",
-        "storage"
+        "storage",
+        "contextMenus"
     ],
+    "minimum_chrome_version": "6.0.0.0",
     "web_accessible_resources": [
         "modal.html"
     ],
