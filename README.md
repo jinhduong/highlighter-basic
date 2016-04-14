@@ -1,6 +1,6 @@
 # Highlighter-Basic
-!(https://s3-ap-southeast-1.amazonaws.com/kipalog.com/h2.png_h0x4ncj2og)
 
+![HS](https://s3-ap-southeast-1.amazonaws.com/kipalog.com/h2.png_h0x4ncj2og)
 >- `Ctr + B`: make highlight for selected text. 
 >- `Shift + N`: move to next red point position. 
 >- `Ctrl + Shift + F`: create the highlight file(.json). 
