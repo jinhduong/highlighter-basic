@@ -25,6 +25,6 @@ Demo video: https://www.youtube.com/watch?v=IexXmwJncYw
 >- _**New feature**_ - Add red point to the web.
 >- `Add red point` : Right-click, choose "Make red point" and then type description.
 >- Update the feature of `download file`
->- fix bugs
+>- fix bugs.
 
 
