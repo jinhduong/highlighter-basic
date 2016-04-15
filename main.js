@@ -3,13 +3,16 @@
 var selection = window.getSelection,
     tree = JSON.parse(localStorage.getItem('hl')) || {},
     place = processUrl(location.href),
+    cTree,
+    cStorage = chrome.storage.local,
     thisPage,
     store$ = {
         class: {
             YELLOW: 'chrome-extension-highlight'
         },
         d: {
-            preNodeId: 0
+            preNodeId: 0,
+            cStorageExist: false
         },
         html: {
             popup: '<div class="ce-popup"> \
@@ -38,13 +41,22 @@ var selection = window.getSelection,
         }
     };
 
-if (tree !== null) {
-    thisPage = tree[place];
-    thisPage && reloadPage(thisPage);
-}
+
+(function main() {
+    if (tree !== null) {
+        thisPage = tree[place];
+        thisPage && reloadPage(thisPage);
+    }
+    cStorage.get('hl', function (items) {
+        cTree = items;
+    });
+})();
+
+
 
 function saveSelectedText(selectObj, decs, info) {
     var guid = shortGuid(),
+        slText = {},
         newHtml = processStr(info.parent.html(), info.text, info.sender.anchorOffset, guid, decs);
 
     info.parent.html(newHtml);
@@ -52,14 +64,26 @@ function saveSelectedText(selectObj, decs, info) {
     if (tree === null || tree[info.place] === undefined)
         tree[info.place] = [];
 
-    tree[info.place].push({
+    slText = {
         xpath: getPathTo(info.parent[0]),
         html: newHtml,
         text: info.text,
-        guid: guid
-    });
+        guid: guid,
+        desc: decs
+    }
+
+    tree[info.place].push(slText);
     updateStore();
     injection();
+
+    slText.html = null, slText.xpath = null;slText.time = new Date().toLocaleString();
+    cTree = cTree || {};
+    cTree['hl'] = cTree['hl'] || {};
+    cTree['hl']['normal'] = cTree['hl']['normal'] ? cTree['hl']['normal'] : [];
+    cTree['hl']['normal'].push(slText);
+    cStorage.set({
+        'hl': cTree['hl']
+    });
 }
 
 jQuery(document).ready(function ($) {
