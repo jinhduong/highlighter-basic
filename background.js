@@ -8,10 +8,6 @@ chrome.extension.onMessage.addListener(function(msg, sender, sendResponse) {
 });
 
 var getClickHandler = function(info, tab) {
-    var msg = {
-        from: 'backgound',
-        point: gPos
-    };
     chrome.tabs.query({
         "active": true,
         "currentWindow": true

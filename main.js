@@ -62,18 +62,21 @@ function saveSelectedText(selectObj, decs, info) {
     injection();
 }
 
-jQuery(document).ready(function($) {
+jQuery(document).ready(function ($) {
     var $body = $('body');
     $body.append(store$.html.popup);
     $body.append(store$.html.popup_mini);
 
-    $('.ce-popup').keydown(function(e) {
+    $('.ce-popup').keydown(function (e) {
         if (e.keyCode === 13)
             $(this).find('button').trigger('click');
     });
+
+    injection();
 });
 
-window.addEventListener("keydown", function(e) {
+
+window.addEventListener("keydown", function (e) {
     if (e.keyCode === 66 && e.ctrlKey) {
         var selectObj = selection(),
             info = {
@@ -87,9 +90,9 @@ window.addEventListener("keydown", function(e) {
             offset = $(selectObj.anchorNode.parentElement).offset();
 
         kDescription({
-            posTop: offset.top + 20,
-            posLeft: offset.left + 20,
-            clickAdd: function(decs) {
+            top: offset.top + 20,
+            left: offset.left + 20,
+            add: function (decs) {
                 saveSelectedText(selectObj, decs, info);
             }
         });
@@ -103,72 +106,68 @@ window.addEventListener("keydown", function(e) {
     }
 });
 
-//When user right-click in page
-document.addEventListener('mouseup', function(mousePos) {
-    if (mousePos.button === 2) {
-        var p = {
-            left: mousePos.pageX,
-            top: mousePos.pageY
-        };
-        console.log(p);
+//when user click right-mouse
+document.addEventListener('mouseup', function (pos) {
+    if (pos.button === 2) {
         var msg = {
-            text: 'example',
-            point: p,
-            from: 'mouseup'
-        };
-        chrome.runtime.sendMessage(msg, function(response) {});
+            from: 'mouseup',
+            point: {
+                left: pos.pageX,
+                top: pos.pageY
+            }
+        }
+        chrome.runtime.sendMessage(msg, function (response) {});
     }
 });
 
-$(document).on('click', '.chrome-extension-highlight,.ce-popup-stick', function() {
-    if ($(this).hasClass('ce-popup-stick'))
-        $(this).remove();
-    else
-        $(this).removeClass(store$.class.YELLOW);
+$(document).on('click', '.chrome-extension-highlight,.ce-popup-stick', function () {
+    var $this = $(this);
+    $this.hasClass('ce-popup-stick') ? $this.remove() : $this.removeClass(store$.class.YELLOW);
     removeElement.call(null, $(this));
 });
 
-//Receving data from extension
-chrome.extension.onMessage.addListener(
-    function(req, sender, resCallback) {
-        if (req.type == store$.const.ADD_JSON) {
-            var dataList = JSON.parse(req.jsontext);
-            if (dataList[place] !== null && dataList[place] !== undefined) {
-                thisPage = (thisPage && thisPage.concat(dataList[place])) || dataList[place];
-                tree[place] = thisPage;
-                updateStore();
-                resCallback({
-                    mess: 'Update data sucessfully'
-                });
-                location.reload();
-            }
-        } else if (req.type == store$.const.CONTEXT) {
-            var guid = shortGuid();
-            kDescription({
-                posLeft: req.point.left,
-                posTop: req.point.top,
-                clickAdd: function(desc) {
-                    var $elem = $(store$.html.popup_stick).attr('guid', guid);
-                    $elem.css('top', req.point.top).css('left', req.point.left);
-                    $elem.find('span').text(desc);
-                    $elem.show();
-                    $('body').append($elem[0].outerHTML);
+//received json data, insert and reload page
+var receiveJson = function (req) {
+    var dataList = JSON.parse(req.jsontext);
+    if (dataList[place] !== null && dataList[place] !== undefined) {
+        thisPage = (thisPage && thisPage.concat(dataList[place])) || dataList[place];
+        tree[place] = thisPage;
+        updateStore();
+        location.reload();
+    }
+}
 
-                    tree[place].push({
-                        html: $elem[0].outerHTML,
-                        guid: guid
-                    });
-                    updateStore();
-                    injection();
-                }
+//received mouse postion from bg and make a red point
+var receiveContext = function (req) {
+    var guid = shortGuid();
+    kDescription({
+        left: req.point.left,
+        top: req.point.top,
+        add: function (desc) {
+            var $elem = $(store$.html.popup_stick).attr('guid', guid);
+            $elem.css('top', req.point.top).css('left', req.point.left);
+            $elem.find('span').text(desc);
+            $elem.show();
+            $('body').append($elem[0].outerHTML);
+            tree[place].push({
+                html: $elem[0].outerHTML,
+                guid: guid
             });
-
-            console.log(req.point, guid);
+            updateStore();
+            injection();
         }
+    });
+}
+
+//receving message from extension/background
+chrome.extension.onMessage.addListener(
+    function (req, sender, resCallback) {
+        if (req.type == store$.const.ADD_JSON)
+            receiveJson(req);
+        else if (req.type == store$.const.CONTEXT)
+            receiveContext(req);
     }
 );
-
-injection();
 
 function processStr(fullString, text, from, guid, desc) {
     var spanHtml = $('<span>').text(text).attr('guid', guid).attr('desc', desc).addClass(store$.class.YELLOW)[0].outerHTML;
@@ -180,7 +179,7 @@ function processStr(fullString, text, from, guid, desc) {
 }
 
 function reloadPage(data) {
-    data.forEach(function(item) {
+    data.forEach(function (item) {
         if (item.xpath) {
             var $elem = $($xp(item.xpath));
             $elem.html(item.html);
@@ -209,7 +208,7 @@ function nextHighlight() {
 
 function removeElement(element) {
     var guid = $(element).attr('guid');
-    thisPage.forEach(function(elem, index) {
+    thisPage.forEach(function (elem, index) {
         if (elem.guid == guid)
             thisPage.splice(index, 1);
     });
@@ -223,22 +222,22 @@ function updateStore() {
 
 function kDescription(settings) {
     var config = {
-        posTop: settings.posTop,
-        posLeft: settings.posLeft,
-        clickAdd: settings.clickAdd
+        top: settings.top,
+        left: settings.left,
+        add: settings.add
     };
 
-    $ce_popup = $('.ce-popup');
-    $ce_popup.css('top', config.posTop).css('left', config.posLeft).show();
+    var $ce_popup = $('.ce-popup');
+    $ce_popup.css('top', config.top).css('left', config.left).show();
     $ce_popup.find('button').off('click');
     $ce_popup.find('input').focus().click();
-    $ce_popup.find('.ce-add').click(function(e) {
+    $ce_popup.find('.ce-add').click(function (e) {
         var desc = $ce_popup.find('input').val();
-        config.clickAdd(desc);
+        config.add(desc);
         $ce_popup.hide();
         $ce_popup.find('input').val('');
     });
-    $ce_popup.find('.ce-cancel').click(function(e) {
+    $ce_popup.find('.ce-cancel').click(function (e) {
         $ce_popup.hide();
     });
 }
@@ -246,16 +245,16 @@ function kDescription(settings) {
 function injection() {
     var $chrome_ext_highlight = $('.chrome-extension-highlight');
 
-    $chrome_ext_highlight.mouseover(function(e) {
+    $chrome_ext_highlight.mouseover(function (e) {
         var pos = $(this).offset().top + 20,
             posLeft = $(this).offset().left + 20,
             desc = $(this).attr('desc');
-        
+
         $('.ce-popup-mini').css('top', pos).css('left', posLeft).find('span').text();
         if (desc) $('.ce-popup-mini').text(desc).show();
     });
 
-    $chrome_ext_highlight.mouseleave(function(e) {
+    $chrome_ext_highlight.mouseleave(function (e) {
         $('.ce-popup-mini').hide();
     });
 }
