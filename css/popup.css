@@ -1,0 +1,21 @@
+body {
+    width: 400px;
+    padding: 10px;
+    font-family: Verdana, Arial, Helvetica, sans-serif !important
+}
+.title-app {
+    margin-bottom: 5px;
+}
+.title-text {
+    font-size: 13px;
+    font-weight: 600;
+}
+.btn {
+    font-size: 12px;
+}
+.panel-title {
+    font-size: 14px;
+}
+.panel-body span {
+    font-size: 11px;
+}

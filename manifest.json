@@ -28,7 +28,7 @@
     ],
     "content_scripts": [{
         "js": ["libs/jquery.min.js", "libs/extLibs.js", "main.js"],
-        "matches": ["http://*/*", "https://*/*"],
+        "matches": ["*://*/*"],
         "css": ["css/style.css"]
     }]
 }
