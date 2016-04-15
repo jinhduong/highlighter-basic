@@ -27,7 +27,7 @@ Demo video: https://www.youtube.com/watch?v=IexXmwJncYw
 >- Update the feature of `download file`
 >- fix bugs.
 
-**Update 15.04 (0.1dev)
+**Update 15.04 (0.1dev)**
 >- New feature: `List of highlight`: open pop-up, click "View list of highlight. 
 
 

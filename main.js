@@ -56,7 +56,7 @@ var selection = window.getSelection,
 
 function saveSelectedText(selectObj, decs, info) {
     var guid = shortGuid(),
-        slText = {},
+        tempObj = null,
         newHtml = processStr(info.parent.html(), info.text, info.sender.anchorOffset, guid, decs);
 
     info.parent.html(newHtml);
@@ -64,7 +64,7 @@ function saveSelectedText(selectObj, decs, info) {
     if (tree === null || tree[info.place] === undefined)
         tree[info.place] = [];
 
-    slText = {
+    var slText = {
         xpath: getPathTo(info.parent[0]),
         html: newHtml,
         text: info.text,
@@ -76,11 +76,13 @@ function saveSelectedText(selectObj, decs, info) {
     updateStore();
     injection();
 
-    slText.html = null, slText.xpath = null;slText.time = new Date().toLocaleString();
+    var tempObj = $.extend({}, slText);
+    tempObj.html = null, tempObj.xpath = null;
+    tempObj.time = new Date().toLocaleString();
     cTree = cTree || {};
     cTree['hl'] = cTree['hl'] || {};
     cTree['hl']['normal'] = cTree['hl']['normal'] ? cTree['hl']['normal'] : [];
-    cTree['hl']['normal'].push(slText);
+    cTree['hl']['normal'].push(tempObj);
     cStorage.set({
         'hl': cTree['hl']
     });
