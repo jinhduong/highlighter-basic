@@ -12,12 +12,31 @@ function sendRequest(data) {
 }
 
 jQuery(document).ready(function($) {
-    //send message request to content script
-    $('#btnUpload').click(function() {
-        sendRequest({
-            type: 'addJson',
-            jsontext: $('#jsontext').val()
-        });
+    $('#form-import').submit(function(e) {
+        var el = $('#jsontext'),
+            json_val = el.val();
+
+        if (json_val.length > 0) {
+            try {
+                // Test for valid json string
+                JSON.parse(json_val);
+
+                // Send message request to content script
+                sendRequest({
+                    type: 'addJson',
+                    jsontext: json_val
+                });
+
+                // Reset form
+                el.val('').focus();
+            } catch (e) {
+                // console.error(e);
+                return;
+            }
+        }
+
+        // Prevent reload page
+        e.preventDefault();
     });
 
     $('#github').click(function() {
