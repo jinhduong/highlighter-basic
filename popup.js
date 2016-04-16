@@ -4,23 +4,23 @@ function sendRequest(data) {
     chrome.tabs.query({
         active: true,
         currentWindow: true
-    }, function(tabs) {
-        chrome.tabs.sendMessage(tabs[0].id, data, function(response) {
+    }, function (tabs) {
+        chrome.tabs.sendMessage(tabs[0].id, data, function (response) {
             //console.log(response.mess);
         });
     });
 }
 
-jQuery(document).ready(function($) {
-    $('#form-import').submit(function(e) {
+jQuery(document).ready(function ($) {
+    $('#form-import').submit(function (e) {
         var el = $('#jsontext'),
             json_val = el.val();
 
         if (json_val.length > 0) {
             try {
-                // Test for valid json string
+                
                 JSON.parse(json_val);
-
+                
                 // Send message request to content script
                 sendRequest({
                     type: 'addJson',
@@ -39,7 +39,7 @@ jQuery(document).ready(function($) {
         e.preventDefault();
     });
 
-    $('#github').click(function() {
+    $('#github').click(function () {
         sendRequest({
             type: 'link',
             href: 'https://github.com/jinhduong/highlighter-basic'
