@@ -48,13 +48,32 @@ var selection = window.getSelection,
         thisPage && reloadPage(thisPage);
     }
     cStorage.get('hl', function (items) {
-        cTree = items;
+        cTree = items || {
+            'hl': null
+        };
     });
 })();
 
 
+function cStorageWrite(slText) {
 
-function saveSelectedText(selectObj, decs, info) {
+    //temp object
+    var tempObj = $.extend({}, slText);
+
+    tempObj.html = null, tempObj.xpath = null;
+    tempObj.time = new Date().toLocaleString();
+
+    cTree['hl']['normal'] = cTree['hl']['normal'] || [];
+    cTree['hl']['normal'].push(tempObj);
+
+    //write to chrome.storage
+    cStorage.set({
+        'hl': cTree['hl']
+    });
+}
+
+
+function saveSelectedText(decs, info) {
     var guid = shortGuid(),
         tempObj = null,
         newHtml = processStr(info.parent.html(), info.text, info.sender.anchorOffset, guid, decs);
@@ -73,19 +92,9 @@ function saveSelectedText(selectObj, decs, info) {
     }
 
     tree[info.place].push(slText);
+    cStorageWrite(slText);
     updateStore();
     injection();
-
-    var tempObj = $.extend({}, slText);
-    tempObj.html = null, tempObj.xpath = null;
-    tempObj.time = new Date().toLocaleString();
-    cTree = cTree || {};
-    cTree['hl'] = cTree['hl'] || {};
-    cTree['hl']['normal'] = cTree['hl']['normal'] ? cTree['hl']['normal'] : [];
-    cTree['hl']['normal'].push(tempObj);
-    cStorage.set({
-        'hl': cTree['hl']
-    });
 }
 
 jQuery(document).ready(function ($) {
@@ -101,35 +110,60 @@ jQuery(document).ready(function ($) {
     injection();
 });
 
+//main funtions
+var cmModule = (function () {
 
-window.addEventListener("keydown", function (e) {
-    if (e.keyCode === 66 && e.ctrlKey) {
-        var selectObj = selection(),
+    var selectText = function () {
+        var s = selection(),
             info = {
-                text: selectObj.toString().trim(),
-                anchor: selectObj.anchorNode,
-                inData: selectObj.anchorNode.data.trim(),
-                parent: $(selectObj.anchorNode.parentElement),
-                sender: selectObj,
-                place: place
-            },
-            offset = $(selectObj.anchorNode.parentElement).offset();
+                text: s.toString().trim(),
+                anchor: s.anchorNode,
+                inData: s.anchorNode.data.trim(),
+                parent: $(s.anchorNode.parentElement),
+                sender: s,
+                place: place,
+                offset: $(s.anchorNode.parentElement).offset()
+            };
 
         kDescription({
-            top: offset.top + 20,
-            left: offset.left + 20,
+            top: info.offset.top + 20,
+            left: info.offset.left + 20,
             add: function (decs) {
-                saveSelectedText(selectObj, decs, info);
+                saveSelectedText(decs, info);
             }
         });
-    } else if (e.keyCode === 78 && e.shiftKey)
-        nextHighlight();
-    else if (e.keyCode === 76 && e.shiftKey && e.ctrlKey) {
+    };
+
+    var removeThisPage = function () {
         localStorage.setItem('hl', null);
         location.reload();
-    } else if (e.keyCode === 70 && e.shiftKey && e.ctrlKey) {
+    };
+
+    var next = function () {
+        nextHighlight();
+    };
+
+    var download = function () {
         downloadFile();
+    };
+
+    return {
+        selectText: selectText,
+        removeThisPage: removeThisPage,
+        next: next,
+        download: download
     }
+})();
+
+window.addEventListener("keydown", function (e) {
+    if (e.keyCode === 66 && e.ctrlKey)
+        cmModule.selectText();
+    else if (e.keyCode === 78 && e.shiftKey)
+        cmModule.next();
+    else if (e.keyCode === 76 && e.shiftKey && e.ctrlKey)
+        cmModule.removeThisPage();
+    else if (e.keyCode === 70 && e.shiftKey && e.ctrlKey)
+        cmModule.download();
 });
 
 //when user click right-mouse
