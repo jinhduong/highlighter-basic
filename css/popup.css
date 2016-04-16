@@ -25,3 +25,7 @@ body {
 .panel-body a {
     font-size: 11px;
 }
+
+#form-import {
+	padding: 0 15px;
+}

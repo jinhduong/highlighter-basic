@@ -7,19 +7,20 @@
         <link href="css/popup.css" rel="stylesheet" />
     </head>
     <body>
-        <div class="title-app">
-            <span class="title-text">Highlighter-basic</span>
+        <div class="title-app text-center">
+            <span class="title-text">Highlighter Basic</span>
             <span class="label label-warning">0.1 dev</span>
         </div>
-        <form class="form-horizontal"></form>
-        <div class="form-group">
-            <textarea rows="4" class="form-control" id="jsontext"></textarea>
-        </div>
-        <div class="form-group">
-            <button id="btnUpload" type="submit" class="btn btn-primary">
-            <span class="glyphicon glyphicon glyphicon-import" aria-hidden="true"></span> Import
-            </button>
-        </div>
+        <form class="form-horizontal" action="javascript:void(0);" method="post" id="form-import">
+            <div class="form-group">
+                <textarea rows="3" class="form-control" id="jsontext" placeholder="Enter your JSON data to import..." required autofocus></textarea>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">
+                <span class="glyphicon glyphicon glyphicon-import" aria-hidden="true"></span> Import
+                </button>
+            </div>
+        </form>
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h3 class="panel-title">
@@ -32,12 +33,12 @@
                 <br>
                 <code>Shift + N</code>: <span>move to next red point position.</span>
                 <br>
-                <code>Ctrl+ Shift + F</code>: <span>create the highlight file(.json).</span>
+                <code>Ctrl + Shift + F</code>: <span>create the highlight file(.json).</span>
                 <br>
-                <code>Ctrl +Shift + L</code>: <span>clear the highlight data for this page.</span>
+                <code>Ctrl + Shift + L</code>: <span>clear the highlight data for this page.</span>
                 <br>
                 <br>
-                <code>NOTICE</code> : <span>If you created the highlight with null description then it will become to italic highlight.</span>
+                <strong>NOTICE</strong>: <span>If you created the highlight with null description then it will become to italic highlight.</span>
             </div>
         </div>
         
@@ -53,10 +54,10 @@
             </div>
         </div>
         
-        GitHub: <a id="github" href="javascript:void(0);">github.com/jinhduong/highlighter-basic</a>
+        GitHub: <a id="github" href="https://github.com/jinhduong/highlighter-basic" target="_blank">github.com/jinhduong/highlighter-basic</a>
         
         <script src="libs/jquery.min.js"></script>
-        <script src="popup.js"></script>
         <script src="libs/bootstrap.js"></script>
+        <script src="popup.js"></script>
     </body>
 </html>
