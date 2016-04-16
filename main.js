@@ -63,12 +63,12 @@ function cStorageWrite(slText) {
     tempObj.html = null, tempObj.xpath = null;
     tempObj.time = new Date().toLocaleString();
 
-    cTree['hl']['normal'] = cTree['hl']['normal'] || [];
-    cTree['hl']['normal'].push(tempObj);
+    cTree.hl.normal = cTree.hl.normal || [];
+    cTree.hl.normal.push(tempObj);
 
     //write to chrome.storage
     cStorage.set({
-        'hl': cTree['hl']
+        'hl': cTree.hl
     });
 }
 
@@ -89,7 +89,7 @@ function saveSelectedText(decs, info) {
         text: info.text,
         guid: guid,
         desc: decs
-    }
+    };
 
     tree[info.place].push(slText);
     cStorageWrite(slText);
@@ -152,7 +152,7 @@ var cmModule = (function () {
         removeThisPage: removeThisPage,
         next: next,
         download: download
-    }
+    };
 })();
 
 window.addEventListener("keydown", function (e) {
@@ -175,7 +175,7 @@ document.addEventListener('mouseup', function (pos) {
                 left: pos.pageX,
                 top: pos.pageY
             }
-        }
+        };
         chrome.runtime.sendMessage(msg, function (response) {});
     }
 });
@@ -195,7 +195,7 @@ var receiveJson = function (req) {
         updateStore();
         location.reload();
     }
-}
+};
 
 //received mouse postion from bg and make a red point
 var receiveContext = function (req) {
@@ -217,7 +217,7 @@ var receiveContext = function (req) {
             injection();
         }
     });
-}
+};
 
 //receving message from extension/background
 chrome.extension.onMessage.addListener(
@@ -287,15 +287,16 @@ function kDescription(settings) {
         add: settings.add
     };
 
-    var $ce_popup = $('.ce-popup');
+    var $ce_popup = $('.ce-popup'),
+        $input = $ce_popup.find('input');
+    
     $ce_popup.css('top', config.top).css('left', config.left).show();
     $ce_popup.find('button').off('click');
-    $ce_popup.find('input').focus().click();
+    $input.focus().click();
     $ce_popup.find('.ce-add').click(function (e) {
-        var desc = $ce_popup.find('input').val();
-        config.add(desc);
+        config.add($input.val());
         $ce_popup.hide();
-        $ce_popup.find('input').val('');
+        $input.val('');
     });
     $ce_popup.find('.ce-cancel').click(function (e) {
         $ce_popup.hide();
@@ -303,18 +304,19 @@ function kDescription(settings) {
 }
 
 function injection() {
-    var $chrome_ext_highlight = $('.chrome-extension-highlight');
+    var $chrome_ext_highlight = $('.chrome-extension-highlight'),
+        $ce_popup = $('.ce-popup-mini');
 
     $chrome_ext_highlight.mouseover(function (e) {
         var pos = $(this).offset().top + 20,
             posLeft = $(this).offset().left + 20,
             desc = $(this).attr('desc');
 
-        $('.ce-popup-mini').css('top', pos).css('left', posLeft).find('span').text();
-        if (desc) $('.ce-popup-mini').text(desc).show();
+        $ce_popup.css('top', pos).css('left', posLeft).find('span').text();
+        if (desc) $ce_popup.text(desc).show();
     });
 
     $chrome_ext_highlight.mouseleave(function (e) {
-        $('.ce-popup-mini').hide();
+        $ce_popup.hide();
     });
 }

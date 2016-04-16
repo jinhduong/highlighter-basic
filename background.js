@@ -9,8 +9,8 @@ chrome.extension.onMessage.addListener(function(msg, sender, sendResponse) {
 
 var getClickHandler = function(info, tab) {
     chrome.tabs.query({
-        "active": true,
-        "currentWindow": true
+        'active': true,
+        'currentWindow': true
     }, function(tabs) {
         chrome.tabs.sendMessage(tabs[0].id, {
             type: 'context',
@@ -20,8 +20,8 @@ var getClickHandler = function(info, tab) {
 };
 
 chrome.contextMenus.create({
-    "title": "Make red point",
-    "type": "normal",
-    "contexts": ["all"],
-    "onclick": getClickHandler
+    'title': 'Make red point',
+    'type': 'normal',
+    'contexts': ['all'],
+    'onclick': getClickHandler
 });
