@@ -21,9 +21,10 @@
             <button type="submit" class="btn btn-primary">
                 <span class="glyphicon glyphicon glyphicon-import" aria-hidden="true"></span> Import from text
             </button>
-            <span class="btn btn-success btn-file"><span class="glyphicon glyphicon-open-file" aria-hidden="true"></span> Import from file
-            <input id="files" name="files[]" multiple type="file">
-            </span>
+            <button class="btn btn-success" id="btn-file">
+                <span class="glyphicon glyphicon-open-file" aria-hidden="true"></span> Import from file
+            </button>
+            <input type="file" id="files" class="btn btn-success" name="files[]" multiple />
         </div>
     </form>
     <div class="panel panel-default">
@@ -31,14 +32,14 @@
             <h3 class="panel-title">
                 <span class="glyphicon glyphicon glyphicon-cog" aria-hidden="true"></span>
                 Commands &amp; using
-                </h3>
+            </h3>
         </div>
         <div class="panel-body">
             <code>Ctr + B</code>: <span>make highlight for selected text.</span>
             <br>
             <code>Shift + N</code>: <span>move to next red point position.</span>
             <br>
-            <code>Ctrl + Shift + F</code>: <span>create the highlight file(.json).</span>
+            <code>Ctrl + Shift + F</code>: <span>create the highlight file (*.json).</span>
             <br>
             <code>Ctrl + Shift + L</code>: <span>clear the highlight data for this page.</span>
             <br>
