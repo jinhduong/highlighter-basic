@@ -1,33 +1,21 @@
 # Highlighter Basic
 
 ![Highlighter-Basic](https://github.com/jinhduong/highlighter-basic/blob/master/H3.png)
+- This is a chrome extension that will help you make the highlights for sites is being surfed.
+- It will store the highlights that you created, it still keep although you reload page or re-open browser.
+- Can create the red points that you can scroll to by this command `Ctrl+N`.
+- Can create the json files for share to your friends or opposite.
+- Connect with my project follow link: https://github.com/jinhduong/highlighter-basic
+- My blog : http://jinhduong.github.io/
+- Chrome web store link : [Highlighter Basic 0.1](https://chrome.google.com/webstore/detail/highlighter-basic/njjbackolnkebbcjlnlnabfpboafkeaa?hl=en-US&gl=MY)
 
+**Release 0.1 beta**
 >- `Ctr + B`: make highlight for selected text. 
 >- `Shift + N`: move to next red point position. 
 >- `Ctrl + Shift + F`: create the highlight file(.json). 
 >- `Ctrl Shift + L`: clear the highlight data for this page. 
->- `Import data`: Open extension popup, paste the json string and then click `Import` button.
+>- `Import data type 1`: Open extension popup, paste the json string and then click `Import from text` button.
+>- `Import data type 1`: Open extension popup, `Import from file`, open file -> update to your page.
 >- `Red point`: Right-click, choose "Make red point" and then type description.
-
->- `NOTICE`: If you created the highlight with null description then it will become to italic highlight.
-Demo video: https://www.youtube.com/watch?v=IexXmwJncYw
-
-**Update 13.04 (0.1 dev)**
->- `Ctrl + Shift + F`: create the highlight file(.json). 
->- `Ctrl + Shift + L`: clear the highlight data for this page. 
->- `NOTICE`: If you created the highlight with null description then it will become to _italic highlight_.
->- `Import`: import highlight-data from json file.
->- fix bugs, add some features
->- New video (tutorials): https://www.youtube.com/watch?v=IexXmwJncYw
-
-**Update 14.04 (0.1 dev)**
->- `Shift + N`: Move to next red point position.
->- _**New feature**_ - Add red point to the web.
->- `Add red point`: Right-click, choose "Make red point" and then type description.
->- Update the feature of `download file`
->- fix bugs.
-
-**Update 15.04 (0.1dev)**
->- New feature: `List of highlight`: open pop-up, click "View list of highlight". 
 
 

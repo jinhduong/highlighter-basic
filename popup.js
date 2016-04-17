@@ -11,38 +11,41 @@ function sendRequest(data) {
     });
 }
 
+function sendJSON(data) {
+    if (data.length > 0) {
+        try {
+
+            JSON.parse(data);
+
+            // Send message request to content script
+            sendRequest({
+                type: 'addJson',
+                jsontext: data
+            });
+
+        } catch (e) {
+            return;
+        }
+    }
+}
+
 jQuery(document).ready(function ($) {
     $('#form-import').submit(function (e) {
         var el = $('#jsontext'),
             json_val = el.val();
-
-        if (json_val.length > 0) {
-            try {
-                
-                JSON.parse(json_val);
-                
-                // Send message request to content script
-                sendRequest({
-                    type: 'addJson',
-                    jsontext: json_val
-                });
-
-                // Reset form
-                el.val('').focus();
-            } catch (e) {
-                // console.error(e);
-                return;
-            }
-        }
-
-        // Prevent reload page
+        sendJSON(json_val);
+        el.val('').focus();
         e.preventDefault();
     });
 
-    $('#github').click(function () {
-        sendRequest({
-            type: 'link',
-            href: 'https://github.com/jinhduong/highlighter-basic'
-        });
+    $('#files').change(function (e) {
+        var file = e.target.files[0],
+            reader = new FileReader();
+
+        reader.onload = function (event) {
+            sendJSON(event.target.result);
+        };
+
+        reader.readAsText(file);
     });
 });

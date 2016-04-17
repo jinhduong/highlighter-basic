@@ -1,63 +1,69 @@
 <!doctype html>
 <html>
-    <head>
-        <meta charset="utf-8" />
-        <title>MME Extension</title>
-        <link href="css/bootstrap.css" rel="stylesheet" />
-        <link href="css/popup.css" rel="stylesheet" />
-    </head>
-    <body>
-        <div class="title-app text-center">
-            <span class="title-text">Highlighter Basic</span>
-            <span class="label label-warning">0.1 dev</span>
+
+<head>
+    <meta charset="utf-8" />
+    <title>MME Extension</title>
+    <link href="css/bootstrap.css" rel="stylesheet" />
+    <link href="css/popup.css" rel="stylesheet" />
+</head>
+
+<body>
+    <div class="title-app text-center">
+        <span class="title-text">Highlighter Basic</span>
+        <span class="label label-success">0.1 beta</span>
+    </div>
+    <form class="form-horizontal" action="javascript:void(0);" method="post" id="form-import">
+        <div class="form-group">
+            <textarea rows="3" class="form-control" id="jsontext" placeholder="Enter your JSON data to import..." required autofocus></textarea>
         </div>
-        <form class="form-horizontal" action="javascript:void(0);" method="post" id="form-import">
-            <div class="form-group">
-                <textarea rows="3" class="form-control" id="jsontext" placeholder="Enter your JSON data to import..." required autofocus></textarea>
-            </div>
-            <div class="form-group">
-                <button type="submit" class="btn btn-primary">
-                <span class="glyphicon glyphicon glyphicon-import" aria-hidden="true"></span> Import
-                </button>
-            </div>
-        </form>
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h3 class="panel-title">
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">
+                <span class="glyphicon glyphicon glyphicon-import" aria-hidden="true"></span> Import from text
+            </button>
+            <span class="btn btn-success btn-file"><span class="glyphicon glyphicon-open-file" aria-hidden="true"></span> Import from file
+            <input id="files" name="files[]" multiple type="file">
+            </span>
+        </div>
+    </form>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">
                 <span class="glyphicon glyphicon glyphicon-cog" aria-hidden="true"></span>
                 Commands &amp; using
                 </h3>
-            </div>
-            <div class="panel-body">
-                <code>Ctr + B</code>: <span>make highlight for selected text.</span>
-                <br>
-                <code>Shift + N</code>: <span>move to next red point position.</span>
-                <br>
-                <code>Ctrl + Shift + F</code>: <span>create the highlight file(.json).</span>
-                <br>
-                <code>Ctrl + Shift + L</code>: <span>clear the highlight data for this page.</span>
-                <br>
-                <br>
-                <strong>NOTICE</strong>: <span>If you created the highlight with null description then it will become to italic highlight.</span>
-            </div>
         </div>
-        
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h3 class="panel-title">
+        <div class="panel-body">
+            <code>Ctr + B</code>: <span>make highlight for selected text.</span>
+            <br>
+            <code>Shift + N</code>: <span>move to next red point position.</span>
+            <br>
+            <code>Ctrl + Shift + F</code>: <span>create the highlight file(.json).</span>
+            <br>
+            <code>Ctrl + Shift + L</code>: <span>clear the highlight data for this page.</span>
+            <br>
+            <br>
+            <strong>NOTICE</strong>: <span>If you created the highlight with null description then it will become to italic highlight.</span>
+        </div>
+    </div>
+
+    <!-- <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">
                 <span class="glyphicon glyphicon glyphicon-cog" aria-hidden="true"></span>
                 Features
                 </h3>
-            </div>
-            <div class="panel-body">
-                <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span> <a href="subpages/list.html">View list of highlight</a>
-            </div>
         </div>
-        
-        GitHub: <a id="github" href="https://github.com/jinhduong/highlighter-basic" target="_blank">github.com/jinhduong/highlighter-basic</a>
-        
-        <script src="libs/jquery.min.js"></script>
-        <script src="libs/bootstrap.js"></script>
-        <script src="popup.js"></script>
-    </body>
+        <div class="panel-body">
+            <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span> <a href="subpages/list.html">View list of highlight</a>
+        </div>
+    </div> -->
+
+    GitHub: <a id="github" href="https://github.com/jinhduong/highlighter-basic" target="_blank">github.com/jinhduong/highlighter-basic</a>
+
+    <script src="libs/jquery.min.js"></script>
+    <script src="libs/bootstrap.js"></script>
+    <script src="popup.js"></script>
+</body>
+
 </html>
