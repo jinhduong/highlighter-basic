@@ -103,7 +103,7 @@ jQuery(document).ready(function ($) {
     $body.append(store$.html.popup_mini);
 
     $('.ce-popup').keydown(function (e) {
-        if (e.keyCode === 13)
+        if (e.keyCode === VK_ENTER)
             $(this).find('button').trigger('click');
     });
 
@@ -155,14 +155,14 @@ var cmModule = (function () {
     };
 })();
 
-window.addEventListener("keydown", function (e) {
-    if (e.keyCode === 66 && e.ctrlKey)
+window.addEventListener('keydown', function (e) {
+    if (e.keyCode === VK_B && e.ctrlKey)
         cmModule.selectText();
-    else if (e.keyCode === 78 && e.shiftKey)
+    else if (e.keyCode === VK_N && e.shiftKey)
         cmModule.next();
-    else if (e.keyCode === 76 && e.shiftKey && e.ctrlKey)
+    else if (e.keyCode === VK_L && e.shiftKey && e.ctrlKey)
         cmModule.removeThisPage();
-    else if (e.keyCode === 70 && e.shiftKey && e.ctrlKey)
+    else if (e.keyCode === VK_F && e.shiftKey && e.ctrlKey)
         cmModule.download();
 });
 
