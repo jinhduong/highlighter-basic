@@ -48,9 +48,9 @@ var selection = window.getSelection,
         thisPage && reloadPage(thisPage);
     }
     cStorage.get('hl', function (items) {
-        cTree = items || {
+        cTree = $.isEmptyObject(items) ? {
             'hl': null
-        };
+        } : items;
     });
 })();
 
@@ -92,7 +92,7 @@ function saveSelectedText(decs, info) {
     };
 
     tree[info.place].push(slText);
-    cStorageWrite(slText);
+    //cStorageWrite(slText);
     updateStore();
     injection();
 }
@@ -289,7 +289,7 @@ function kDescription(settings) {
 
     var $ce_popup = $('.ce-popup'),
         $input = $ce_popup.find('input');
-    
+
     $ce_popup.css('top', config.top).css('left', config.left).show();
     $ce_popup.find('button').off('click');
     $input.focus().click();
