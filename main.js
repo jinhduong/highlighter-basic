@@ -156,13 +156,13 @@ var cmModule = (function () {
 })();
 
 window.addEventListener('keydown', function (e) {
-    if (e.keyCode === VK_B && e.ctrlKey)
+    if (e.keyCode === VK._B && e.ctrlKey)
         cmModule.selectText();
-    else if (e.keyCode === VK_N && e.shiftKey)
+    else if (e.keyCode === VK._N && e.shiftKey)
         cmModule.next();
-    else if (e.keyCode === VK_L && e.shiftKey && e.ctrlKey)
+    else if (e.keyCode === VK._L && e.shiftKey && e.ctrlKey)
         cmModule.removeThisPage();
-    else if (e.keyCode === VK_F && e.shiftKey && e.ctrlKey)
+    else if (e.keyCode === VK._F && e.shiftKey && e.ctrlKey)
         cmModule.download();
 });
 
