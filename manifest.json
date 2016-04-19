@@ -30,7 +30,7 @@
         "modal.html"
     ],
     "content_scripts": [{
-        "js": ["libs/jquery.min.js", "libs/extLibs.js", "main.js"],
+        "js": ["libs/jquery.min.js", "libs/extLibs.js", "libs/virtual-key-code.min.js", "main.js"],
         "matches": ["*://*/*"],
         "css": ["css/style.css"]
     }]

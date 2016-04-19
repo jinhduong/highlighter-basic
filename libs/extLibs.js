@@ -1,3 +1,5 @@
+'use strict';
+
 //Get XPath string of specify DOM element
 function getPathTo(element) {
     if (element.id !== '' && element.id !== undefined)
@@ -5,9 +7,10 @@ function getPathTo(element) {
     if (element === document.body)
         return '/HTML/' + element.tagName;
 
-    var ix = 0;
-    var siblings = element.parentNode.childNodes;
-    for (var i = 0; i < siblings.length; i++) {
+    var ix = 0,
+        siblings = element.parentNode.childNodes;
+
+    for (var i = 0, t = siblings.length; i < t; i++) {
         var sibling = siblings[i];
         if (sibling === element)
             return getPathTo(element.parentNode) + '/' + element.tagName + '[' + (ix + 1) + ']';
@@ -43,8 +46,9 @@ function shortGuid() {
 }
 
 function downloadFile() {
-    var elem = document.createElement("a");
-    var dataSave = {};
+    var elem = document.createElement('a'),
+        dataSave = {};
+    
     dataSave[place] = tree[place];
     var file = new Blob([JSON.stringify(dataSave)], {
         type: 'html/text'
@@ -52,4 +56,5 @@ function downloadFile() {
     elem.href = URL.createObjectURL(file);
     elem.download = location.href + '.json';
     elem.click();
+    elem.remove();
 }

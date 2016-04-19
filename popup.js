@@ -38,6 +38,10 @@ jQuery(document).ready(function ($) {
         e.preventDefault();
     });
 
+    $('#btn-file').click(function() {
+        $('#files').click();
+    });
+
     $('#files').change(function (e) {
         var file = e.target.files[0],
             reader = new FileReader();
