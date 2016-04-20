@@ -48,9 +48,9 @@ var selection = window.getSelection,
         thisPage && reloadPage(thisPage);
     }
     cStorage.get('hl', function (items) {
-        cTree = items || {
+        cTree = $.isEmptyObject(items) ? {
             'hl': null
-        };
+        } : items;
     });
 })();
 
@@ -92,7 +92,7 @@ function saveSelectedText(decs, info) {
     };
 
     tree[info.place].push(slText);
-    cStorageWrite(slText);
+    //cStorageWrite(slText);
     updateStore();
     injection();
 }
@@ -156,13 +156,13 @@ var cmModule = (function () {
 })();
 
 window.addEventListener('keydown', function (e) {
-    if (e.keyCode === VK_B && e.ctrlKey)
+    if (e.keyCode === VK._B && e.ctrlKey)
         cmModule.selectText();
-    else if (e.keyCode === VK_N && e.shiftKey)
+    else if (e.keyCode === VK._N && e.shiftKey)
         cmModule.next();
-    else if (e.keyCode === VK_L && e.shiftKey && e.ctrlKey)
+    else if (e.keyCode === VK._L && e.shiftKey && e.ctrlKey)
         cmModule.removeThisPage();
-    else if (e.keyCode === VK_F && e.shiftKey && e.ctrlKey)
+    else if (e.keyCode === VK._F && e.shiftKey && e.ctrlKey)
         cmModule.download();
 });
 
@@ -289,7 +289,7 @@ function kDescription(settings) {
 
     var $ce_popup = $('.ce-popup'),
         $input = $ce_popup.find('input');
-    
+
     $ce_popup.css('top', config.top).css('left', config.left).show();
     $ce_popup.find('button').off('click');
     $input.focus().click();

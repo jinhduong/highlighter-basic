@@ -15,7 +15,7 @@
 >- `Ctrl + Shift + F`: create the highlight file(.json). 
 >- `Ctrl Shift + L`: clear the highlight data for this page. 
 >- `Import data type 1`: Open extension popup, paste the json string and then click `Import from text` button.
->- `Import data type 1`: Open extension popup, `Import from file`, open file -> update to your page.
+>- `Import data type 2`: Open extension popup, `Import from file`, open file -> update to your page.
 >- `Red point`: Right-click, choose "Make red point" and then type description.
 
 
