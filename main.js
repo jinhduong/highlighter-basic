@@ -103,7 +103,7 @@ jQuery(document).ready(function ($) {
     $body.append(store$.html.popup_mini);
 
     $('.ce-popup').keydown(function (e) {
-        if (e.keyCode === VK_ENTER)
+        if (e.keyCode === VK._ENTER)
             $(this).find('button').trigger('click');
     });
 
