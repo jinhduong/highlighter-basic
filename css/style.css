@@ -107,3 +107,30 @@
     font-size: 12px;
     font-family: Verdana, Arial, Helvetica, sans-serif !important
 }
+
+.ce-square {
+    width: 200px;
+    height: 70px;
+    padding: 5px 10px 5px 10px;
+    min-width: 90px;
+    min-height: 50px;
+    top: 138.111px;
+    left: 508.601px;
+    z-index: 10003;
+    opacity: 1;
+    transform: scale(1);
+    position: absolute;
+    border-radius: 4px;
+    border: 2px solid red;
+    -webkit-box-shadow: 1px 1px 7px 1px rgba(128, 128, 128, .3);
+    box-shadow: 1px 1px 7px 1px rgba(128, 128, 128, .3);
+    background-color: transparent;
+    outline: 0;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    box-sizing: content-box;
+    border-width: 1px;
+    -webkit-appearance: none;
+    font-size: 12px;
+    font-family: Verdana, Arial, Helvetica, sans-serif !important;
+    cursor: pointer;
+}

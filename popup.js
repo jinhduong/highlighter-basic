@@ -1,4 +1,11 @@
 'use strict';
+var cStorage = chrome.storage.sync;
+var defaultCommand = {
+    makeHighlight: 'Ctrl_B',
+    scrollRedPoint: 'Shift_N',
+    clearData: 'Ctrl_Shift_L',
+    createFile: 'Ctrl_Shift_F'
+};
 
 function sendRequest(data) {
     chrome.tabs.query({
@@ -10,6 +17,16 @@ function sendRequest(data) {
         });
     });
 }
+
+(function main() {
+    cStorage.get(function (items) {
+        defaultCommand = $.isEmptyObject(items) ? defaultCommand : items['userDefine'];
+        console.log(defaultCommand);
+        $('#customCmd').find('input').each(function (e) {
+            $(this).val(defaultCommand[$(this).attr('prop')]);
+        });
+    });
+})();
 
 function sendJSON(data) {
     if (data.length > 0) {
@@ -38,7 +55,7 @@ jQuery(document).ready(function ($) {
         e.preventDefault();
     });
 
-    $('#btn-file').click(function() {
+    $('#btn-file').click(function () {
         $('#files').click();
     });
 
@@ -51,5 +68,19 @@ jQuery(document).ready(function ($) {
         };
 
         reader.readAsText(file);
+    });
+
+    $('#customCmd').find('input').change(function (e) {
+        var prop = $(this).attr('prop'),
+            val = $(this).val();
+        defaultCommand[prop] = val;
+        cStorage.set({
+            'userDefine': defaultCommand
+        });
+        sendRequest({
+            type: 'custom_command',
+            data: defaultCommand
+        });
+        $('#customCmd').find('.alert').show();
     });
 });

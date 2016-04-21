@@ -13,53 +13,78 @@
         <span class="title-text">Highlighter Basic</span>
         <span class="label label-success">0.1 beta</span>
     </div>
-    <form class="form-horizontal" action="javascript:void(0);" method="post" id="form-import">
-        <div class="form-group">
-            <textarea rows="3" class="form-control" id="jsontext" placeholder="Enter your JSON data to import..." required autofocus></textarea>
-        </div>
-        <div class="form-group">
-            <button type="submit" class="btn btn-primary">
-                <span class="glyphicon glyphicon glyphicon-import" aria-hidden="true"></span> Import from text
-            </button>
-            <button class="btn btn-success" id="btn-file">
-                <span class="glyphicon glyphicon-open-file" aria-hidden="true"></span> Import from file
-            </button>
-            <input type="file" id="files" class="btn btn-success" name="files[]" accept=".json,.txt" multiple />
-        </div>
-    </form>
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h3 class="panel-title">
+
+    <div>
+        <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Home</a></li>
+            <li role="presentation"><a href="#customCmd" aria-controls="customCmd" role="tab" data-toggle="tab">Custom hotkeys</a></li>
+        </ul>
+
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="home">
+                <form class="form-horizontal" action="javascript:void(0);" method="post" id="form-import">
+                    <div class="form-group">
+                        <textarea rows="3" class="form-control" id="jsontext" placeholder="Enter your JSON data to import..." required autofocus></textarea>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary">
+                            <span class="glyphicon glyphicon glyphicon-import" aria-hidden="true"></span> Import from text
+                        </button>
+                        <button class="btn btn-success" id="btn-file">
+                            <span class="glyphicon glyphicon-open-file" aria-hidden="true"></span> Import from file
+                        </button>
+                        <input type="file" id="files" class="btn btn-success" name="files[]" accept=".json,.txt" multiple />
+                    </div>
+                </form>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
                 <span class="glyphicon glyphicon glyphicon-cog" aria-hidden="true"></span>
                 Commands &amp; using
             </h3>
-        </div>
-        <div class="panel-body">
-            <code>Ctr + B</code>: <span>make highlight for selected text.</span>
-            <br>
-            <code>Shift + N</code>: <span>move to next red point position.</span>
-            <br>
-            <code>Ctrl + Shift + F</code>: <span>create the highlight file (*.json).</span>
-            <br>
-            <code>Ctrl + Shift + L</code>: <span>clear the highlight data for this page.</span>
-            <br>
-            <br>
-            <strong>NOTICE</strong>: <span>If you created the highlight with null description then it will become to italic highlight.</span>
+                    </div>
+                    <div class="panel-body">
+                        <code>Ctrl + B</code>: <span>make highlight for selected text.</span>
+                        <br>
+                        <code>Shift + N</code>: <span>move to next red point position.</span>
+                        <br>
+                        <code>Ctrl + Shift + F</code>: <span>create the highlight file (*.json).</span>
+                        <br>
+                        <code>Ctrl + Shift + L</code>: <span>clear the highlight data for this page.</span>
+                        <br>
+                        <br>
+                        <strong>NOTICE</strong>: <span>If you created the highlight with null description then it will become to italic highlight.</span>
+                    </div>
+                </div>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="customCmd">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                <span class="glyphicon glyphicon glyphicon-cog" aria-hidden="true"></span>
+                Define hotkeys
+            </h3>
+                    </div>
+                    <div class="panel-body">
+                        <code>Ctrl + B</code>
+                        <input prop="makeHighlight" value="Ctrl_B" id="Ctrl_B" class="form-control" />
+                        <br>
+                        <code>Shift + N</code>
+                        <input prop="scrollRedPoint" value="Ctrl_N" id="Shift_N" class="form-control" />
+                        <br>
+                        <code>Ctrl + Shift + F</code>
+                        <input prop="createFile" value="Ctrl_Shift_F" id="CtrlShift_F" class="form-control" />
+                        <br>
+                        <code>Ctrl + Shift + L</code>
+                        <input prop="clearData" value="Ctrl_Shift_L" id="CtrlShift_L" class="form-control" />
+                        <br>
+                        <div style="display:none" class="alert alert-success" role="alert"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Changed success</div>
+                        <br>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-
-    <!-- <div class="panel panel-default">
-        <div class="panel-heading">
-            <h3 class="panel-title">
-                <span class="glyphicon glyphicon glyphicon-cog" aria-hidden="true"></span>
-                Features
-                </h3>
-        </div>
-        <div class="panel-body">
-            <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span> <a href="subpages/list.html">View list of highlight</a>
-        </div>
-    </div> -->
-
     <footer class="text-center">
         GitHub: <a href="https://github.com/jinhduong/highlighter-basic" target="_blank">github.com/jinhduong/highlighter-basic</a>
     </footer>

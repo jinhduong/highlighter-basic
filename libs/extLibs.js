@@ -48,7 +48,7 @@ function shortGuid() {
 function downloadFile() {
     var elem = document.createElement('a'),
         dataSave = {};
-    
+
     dataSave[place] = tree[place];
     var file = new Blob([JSON.stringify(dataSave)], {
         type: 'html/text'
@@ -57,4 +57,24 @@ function downloadFile() {
     elem.download = location.href + '.json';
     elem.click();
     elem.remove();
+}
+
+function compareKeys(keyStr, k_event) {
+    var flag = true,
+        vks = keyStr.split('_').map(function (k) {
+            return '_' + k.toUpperCase();
+        });
+
+    vks.forEach(function (vk) {
+        if (vk === '_CTRL' || vk === '_SHIFT')
+            flag = (vk === '_CTRL') ? k_event.ctrlKey : k_event.shiftKey;
+        else
+            flag = k_event.keyCode === VK[vk];
+    });
+
+    return flag;
+}
+
+function isEmptyObj() {
+    Object.keys(this).length === 0 && JSON.stringify(this) === JSON.stringify({});
 }

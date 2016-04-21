@@ -33,3 +33,26 @@ body {
 #files {
     display: none;
 }
+
+.tab-content {
+    padding: 10px 0px;
+}
+
+.form-control {
+    height: auto;
+    padding: 2px 5px;
+    font-size: 12px;
+}
+
+.nav > li > a {
+    padding: 5px 7px;
+}
+
+.nav-tabs > li > a {
+    border-radius: 1px 1px 0 0;
+}
+
+.alert {
+    padding: 5px 3px;
+    display: none;
+}

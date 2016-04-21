@@ -1,10 +1,13 @@
 'use strict';
 
 var selection = window.getSelection,
-    tree = JSON.parse(localStorage.getItem('hl')) || {},
+
     place = processUrl(location.href),
+    tree = JSON.parse(localStorage.getItem('hl')) || {
+        [place]: []
+    },
     cTree,
-    cStorage = chrome.storage.local,
+    cStorage = chrome.storage.sync,
     thisPage,
     store$ = {
         class: {
@@ -12,7 +15,13 @@ var selection = window.getSelection,
         },
         d: {
             preNodeId: 0,
-            cStorageExist: false
+            cStorageExist: false,
+            command: {
+                makeHighlight: 'Ctrl_B',
+                scrollRedPoint: 'Shift_N',
+                clearData: 'Ctrl_Shift_L',
+                createFile: 'Ctrl_Shift_F'
+            }
         },
         html: {
             popup: '<div class="ce-popup"> \
@@ -32,15 +41,17 @@ var selection = window.getSelection,
                     <div> \
                     ** <span></span> \
                     </div> \
-                </div>'
+                </div>',
+            popup_square: '<div class="ce-square"></div>'
         },
         const: {
             ADD_JSON: "addJson",
             OPEN_LINK: "link",
-            CONTEXT: 'context'
+            CONTEXT: 'context',
+            CUSTOM_CMD: 'custom_command',
+            SQUARE: 'square'
         }
     };
-
 
 (function main() {
     if (tree !== null) {
@@ -52,6 +63,12 @@ var selection = window.getSelection,
             'hl': null
         } : items;
     });
+
+    cStorage.get(function (items) {
+        if (items && items['userDefine'])
+            store$.d.command = items['userDefine'];
+    });
+
 })();
 
 
@@ -156,14 +173,10 @@ var cmModule = (function () {
 })();
 
 window.addEventListener('keydown', function (e) {
-    if (e.keyCode === VK._B && e.ctrlKey)
-        cmModule.selectText();
-    else if (e.keyCode === VK._N && e.shiftKey)
-        cmModule.next();
-    else if (e.keyCode === VK._L && e.shiftKey && e.ctrlKey)
-        cmModule.removeThisPage();
-    else if (e.keyCode === VK._F && e.shiftKey && e.ctrlKey)
-        cmModule.download();
+    if (compareKeys(store$.d.command.makeHighlight, e)) cmModule.selectText();
+    else if (compareKeys(store$.d.command.scrollRedPoint, e)) cmModule.next();
+    else if (compareKeys(store$.d.command.clearData, e)) cmModule.removeThisPage();
+    else if (compareKeys(store$.d.command.createFile, e)) cmModule.download();
 });
 
 //when user click right-mouse
@@ -219,13 +232,34 @@ var receiveContext = function (req) {
     });
 };
 
+var receiveSquare = function (req) {
+    var guid = shortGuid(),
+        $elem = $(store$.html.popup_square).attr('guid', guid);
+    $elem.css('top', req.point.top).css('left', req.point.left);
+    $('body').append($elem[0].outerHTML);
+    tree[place].push({
+        html: $elem[0].outerHTML,
+        guid: guid
+    });
+    updateStore();
+    injection();
+}
+
+var receiveCommand = function (req) {
+    store$.d.command = req.data;
+};
+
 //receving message from extension/background
 chrome.extension.onMessage.addListener(
     function (req, sender, resCallback) {
-        if (req.type == store$.const.ADD_JSON)
+        if (req.type === store$.const.ADD_JSON)
             receiveJson(req);
-        else if (req.type == store$.const.CONTEXT)
+        else if (req.type === store$.const.CONTEXT)
             receiveContext(req);
+        else if (req.type === store$.const.CUSTOM_CMD)
+            receiveCommand(req);
+        else if (req.type === store$.const.SQUARE)
+            receiveSquare(req);
     }
 );
 
