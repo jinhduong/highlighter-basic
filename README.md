@@ -1,6 +1,6 @@
 # Highlighter Basic
 
-![Highlighter-Basic](https://github.com/jinhduong/highlighter-basic/blob/master/H3.png)
+![Highlighter-Basic](https://raw.githubusercontent.com/jinhduong/highlighter-basic/master/H3.png)
 - This is a chrome extension that will help you make the highlights for sites is being surfed.
 - It will store the highlights that you created, it still keep although you reload page or re-open browser.
 - Can create the red points that you can scroll to by this command `Ctrl+N`.
